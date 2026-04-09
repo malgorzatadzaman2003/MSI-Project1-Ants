@@ -4,6 +4,9 @@ from time import perf_counter
 from src.cvrplib_parser import parse_cvrplib
 from src.greedy import solve_greedy
 
+from src.ant_system import AntSystemSolver
+from src.config import AlgorithmConfig
+
 from src.visualization import (
     ensure_results_dirs,
     plot_routes,
@@ -12,8 +15,9 @@ from src.visualization import (
 )
 
 
-def print_solution_summary(instance, result, execution_time: float) -> None:
+def print_solution_summary(instance, result, execution_time: float, algorithm_name: str) -> None:
     print("=" * 72)
+    print(f"Algorytm:                 {algorithm_name}")
     print(f"Instancja:                {instance.name}")
     print(f"Liczba pojazdów:          {instance.num_vehicles}")
     print(f"Pojemność pojazdu:        {instance.capacity}")
@@ -40,6 +44,7 @@ def main() -> None:
     ensure_results_dirs()
 
     data_path = Path("data/raw/A-n32-k5.vrp")
+    algorithm = "as"   # "greedy" albo "as" na razie
 
     instance = parse_cvrplib(
         filepath=str(data_path),
@@ -48,14 +53,45 @@ def main() -> None:
     )
 
     start = perf_counter()
-    result = solve_greedy(instance)
-    end = perf_counter()
 
+    if algorithm == "greedy":
+        result = solve_greedy(instance)
+        routes = result.routes
+        total_length = result.total_length
+        feasible = result.feasible
+        algorithm_name = "Greedy"
+
+    elif algorithm == "as":
+        config = AlgorithmConfig(
+            seed=42,
+            ants=20,
+            iterations=100,
+            alpha=1.0,
+            beta=3.0,
+            evaporation=0.5,
+            q=100.0,
+        )
+        solver = AntSystemSolver(instance, config)
+        result = solver.solve()
+        routes = result.routes
+        total_length = result.total_length
+        feasible = result.feasible
+        algorithm_name = f"Ant System (best iter: {result.best_iteration})"
+
+    else:
+        raise ValueError(f"Nieznany algorytm: {algorithm}")
+
+    end = perf_counter()
     execution_time = end - start
 
-    print_solution_summary(instance, result, execution_time)
+    print_solution_summary(
+    instance=instance,
+    result=result,
+    execution_time=execution_time,
+    algorithm_name=algorithm_name,
+    )
 
-    base_name = f"{instance.name}_greedy"
+    base_name = f"{instance.name}_{algorithm}"
 
     routes_txt_path = Path("results/routes") / f"{base_name}.txt"
     routes_csv_path = Path("results/tables") / f"{base_name}.csv"
@@ -63,24 +99,24 @@ def main() -> None:
 
     save_routes_text(
         instance=instance,
-        routes=result.routes,
-        total_length=result.total_length,
+        routes=routes,
+        total_length=total_length,
         filepath=str(routes_txt_path),
     )
 
     save_routes_table(
         instance=instance,
-        routes=result.routes,
-        total_length=result.total_length,
+        routes=routes,
+        total_length=total_length,
         execution_time=execution_time,
         filepath=str(routes_csv_path),
     )
 
     plot_routes(
         instance=instance,
-        routes=result.routes,
+        routes=routes,
         filepath=str(plot_path),
-        title=f"Greedy solution - {instance.name}",
+        title=f"{algorithm_name} - {instance.name}",
     )
 
     print("Zapisano wyniki:")
