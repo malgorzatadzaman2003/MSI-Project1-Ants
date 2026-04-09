@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -76,7 +76,7 @@ def plot_routes(
     instance: CVRPInstance,
     routes: List[List[int]],
     filepath: str,
-    title: str | None = None,
+    title: Optional[str] = None,
 ) -> None:
     """Rysuje trasy i zapisuje wykres do PNG."""
     ensure_results_dirs()
