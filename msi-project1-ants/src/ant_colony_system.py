@@ -36,10 +36,10 @@ class AntColonySystemSolver:
 
         # Parametr ACS:
         # q0 - prawdopodobieństwo wyboru najlepszego ruchu zamiast losowania
-        self.q0 = 0.9
+        self.q0 = 0.7
 
         # Parametr lokalnej aktualizacji
-        self.local_evaporation = 0.1
+        self.local_evaporation = 0.05
 
     def _build_distance_matrix(self) -> np.ndarray:
         n = len(self.nodes)
@@ -246,9 +246,9 @@ class AntColonySystemSolver:
 
             self._global_evaporation()
 
-            if iteration_best_routes:
-                self._global_pheromone_update(iteration_best_routes, iteration_best_length)
-
+            if best_routes:
+                self._global_pheromone_update(best_routes, best_length)
+            
         feasible = len(best_routes) > 0 and self.instance.is_solution_feasible(best_routes)
 
         return ACSResult(

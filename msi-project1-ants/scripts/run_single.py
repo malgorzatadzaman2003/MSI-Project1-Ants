@@ -7,6 +7,10 @@ from src.greedy import solve_greedy
 from src.ant_system import AntSystemSolver
 from src.config import AlgorithmConfig
 
+from src.ant_colony_system import AntColonySystemSolver
+
+from src.max_min_ant_system import MaxMinAntSystemSolver
+
 from src.visualization import (
     ensure_results_dirs,
     plot_routes,
@@ -43,13 +47,13 @@ def print_solution_summary(instance, result, execution_time: float, algorithm_na
 def main() -> None:
     ensure_results_dirs()
 
-    data_path = Path("data/raw/A-n32-k5.vrp")
-    algorithm = "as"   # "greedy" albo "as" na razie
+    data_path = Path("data/raw/A-n48-k7.vrp")
+    algorithm = "as"   # "greedy" albo "as" na razie // "acs" dodane
 
     instance = parse_cvrplib(
         filepath=str(data_path),
-        num_vehicles=5,
-        s_max=500.0,
+        num_vehicles=7,
+        s_max=800.0,
     )
 
     start = perf_counter()
@@ -78,6 +82,39 @@ def main() -> None:
         feasible = result.feasible
         algorithm_name = f"Ant System (best iter: {result.best_iteration})"
 
+    elif algorithm == "acs":
+        config = AlgorithmConfig(
+            seed=42,
+            ants=20,
+            iterations=100,
+            alpha=1.0,
+            beta=3.0,
+            evaporation=0.5,
+            q=100.0,
+        )
+        solver = AntColonySystemSolver(instance, config)
+        result = solver.solve()
+        routes = result.routes
+        total_length = result.total_length
+        feasible = result.feasible
+        algorithm_name = f"Ant Colony System (best iter: {result.best_iteration})"
+
+    elif algorithm == "mmas":
+        config = AlgorithmConfig(
+            seed=42,
+            ants=20,
+            iterations=100,
+            alpha=1.0,
+            beta=3.0,
+            evaporation=0.5,
+            q=100.0,
+        )
+        solver = MaxMinAntSystemSolver(instance, config)
+        result = solver.solve()
+        routes = result.routes
+        total_length = result.total_length
+        feasible = result.feasible
+        algorithm_name = f"MMAS (best iter: {result.best_iteration})"
     else:
         raise ValueError(f"Nieznany algorytm: {algorithm}")
 
