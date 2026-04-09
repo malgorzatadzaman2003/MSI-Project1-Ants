@@ -50,3 +50,21 @@ class CVRPInstance:
             self.route_load(route) <= self.capacity
             and self.route_length(route) <= self.s_max
         )
+    
+    def is_solution_feasible(self, routes: List[List[int]]) -> bool:
+        """
+        Sprawdza:
+        - czy każdy klient został odwiedzony dokładnie raz,
+        - czy liczba tras <= liczba pojazdów,
+        - czy każda trasa spełnia capacity i s_max.
+        """
+        if len(routes) > self.num_vehicles:
+            return False
+
+        visited = []
+        for route in routes:
+            if not self.is_route_feasible(route):
+                return False
+            visited.extend(route)
+
+        return sorted(visited) == sorted(self.customers())
