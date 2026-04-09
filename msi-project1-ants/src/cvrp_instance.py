@@ -17,4 +17,8 @@ class CVRPInstance:
         """Zwraca listę klientów bez magazynu."""
         return [node for node in self.node_coords if node != self.depot_id]
     
-    
+    def distance(self, a: int, b: int) -> float:
+        """Odległość euklidesowa między dwoma wierzchołkami/punktami."""
+        x1, y1 = self.node_coords[a]
+        x2, y2 = self.node_coords[b]
+        return math.dist((x1, y1), (x2, y2))
