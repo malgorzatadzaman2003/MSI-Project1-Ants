@@ -44,3 +44,9 @@ class CVRPInstance:
         """Suma zapotrzebowań klientów na trasie."""
         return sum(self.demands[c] for c in route)
     
+    def is_route_feasible(self, route: List[int]) -> bool:
+        """Sprawdza ograniczenie pojemności i S_max dla jednej trasy."""
+        return (
+            self.route_load(route) <= self.capacity
+            and self.route_length(route) <= self.s_max
+        )
