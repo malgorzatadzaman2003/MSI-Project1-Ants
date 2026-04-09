@@ -47,12 +47,12 @@ def print_solution_summary(instance, result, execution_time: float, algorithm_na
 def main() -> None:
     ensure_results_dirs()
 
-    data_path = Path("data/raw/A-n48-k7.vrp")
-    algorithm = "as"   # "greedy" albo "as" na razie // "acs" dodane
+    data_path = Path("data/raw/A-n60-k9.vrp")
+    algorithm = "mmas"   # "greedy" albo "as" na razie // "acs" dodane
 
     instance = parse_cvrplib(
         filepath=str(data_path),
-        num_vehicles=7,
+        num_vehicles=9,
         s_max=800.0,
     )
 
@@ -68,7 +68,7 @@ def main() -> None:
     elif algorithm == "as":
         config = AlgorithmConfig(
             seed=42,
-            ants=20,
+            ants=80,
             iterations=100,
             alpha=1.0,
             beta=3.0,
@@ -85,7 +85,7 @@ def main() -> None:
     elif algorithm == "acs":
         config = AlgorithmConfig(
             seed=42,
-            ants=20,
+            ants=80,
             iterations=100,
             alpha=1.0,
             beta=3.0,
@@ -102,7 +102,7 @@ def main() -> None:
     elif algorithm == "mmas":
         config = AlgorithmConfig(
             seed=42,
-            ants=20,
+            ants=80,
             iterations=100,
             alpha=1.0,
             beta=3.0,

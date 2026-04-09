@@ -4,7 +4,9 @@ import pandas as pd
 
 from src.experiment_runner import (
     run_as_once,
+    run_acs_once,
     run_greedy_once,
+    run_mmas_once,
     save_benchmark_outputs,
     summarize_results,
 )
@@ -20,7 +22,7 @@ def main() -> None:
     ]
 
     # Parametry Ant System
-    ants = 20
+    ants = 80
     iterations = 100
     alpha = 1.0
     beta = 3.0
@@ -65,6 +67,41 @@ def main() -> None:
             all_results.append(asdict(as_result))
 
         print(f"[AS] wykonano {len(seeds)} uruchomień")
+
+        # ACS
+        for seed in seeds:
+            acs_result = run_acs_once(
+                instance_path=spec["path"],
+                num_vehicles=spec["vehicles"],
+                s_max=spec["s_max"],
+                seed=seed,
+                ants=ants,
+                iterations=iterations,
+                alpha=alpha,
+                beta=beta,
+                evaporation=evaporation,
+                q=q,
+            )
+            all_results.append(asdict(acs_result))
+        print(f"[ACS] wykonano {len(seeds)} uruchomień")
+
+        # MMAS
+        for seed in seeds:
+            mmas_result = run_mmas_once(
+                instance_path=spec["path"],
+                num_vehicles=spec["vehicles"],
+                s_max=spec["s_max"],
+                seed=seed,
+                ants=ants,
+                iterations=iterations,
+                alpha=alpha,
+                beta=beta,
+                evaporation=evaporation,
+                q=q,
+            )
+            all_results.append(asdict(mmas_result))
+        print(f"[MMAS] wykonano {len(seeds)} uruchomień")
+
 
     raw_df = pd.DataFrame(all_results)
     summary_df = summarize_results(raw_df)

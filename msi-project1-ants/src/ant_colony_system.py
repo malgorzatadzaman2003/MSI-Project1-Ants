@@ -7,6 +7,8 @@ import numpy as np
 from src.config import AlgorithmConfig
 from src.cvrp_instance import CVRPInstance
 
+from src.greedy import solve_greedy
+
 
 @dataclass
 class ACSResult:
@@ -31,7 +33,7 @@ class AntColonySystemSolver:
         self.heuristic_matrix = self._build_heuristic_matrix()
 
         # tau0 - początkowy poziom feromonu
-        self.tau0 = 1.0
+        self.tau0 = self._compute_initial_pheromone_level()
         self.pheromone_matrix = self._initialize_pheromones()
 
         # Parametr ACS:
@@ -41,6 +43,26 @@ class AntColonySystemSolver:
         # Parametr lokalnej aktualizacji
         self.local_evaporation = 0.05
 
+    def _compute_initial_pheromone_level(self) -> float:
+        """
+        Bardziej standardowe ustawienie tau0:
+        tau0 = 1 / (n * L_greedy)
+
+        gdzie:
+        - n = liczba klientów,
+        - L_greedy = długość rozwiązania zachłannego.
+
+        Jeśli greedy nie zwróci rozwiązania dopuszczalnego, stosujemy bezpieczny fallback.
+        """
+        greedy_result = solve_greedy(self.instance)
+
+        n = max(1, len(self.customers))
+
+        if greedy_result.feasible and greedy_result.total_length > 0:
+            return 1.0 / (n * greedy_result.total_length)
+
+        return 1.0 / n
+        
     def _build_distance_matrix(self) -> np.ndarray:
         n = len(self.nodes)
         distances = np.zeros((n, n), dtype=float)
@@ -246,9 +268,9 @@ class AntColonySystemSolver:
 
             self._global_evaporation()
 
-            if best_routes:
-                self._global_pheromone_update(best_routes, best_length)
-            
+            if iteration_best_routes:
+                self._global_pheromone_update(iteration_best_routes, iteration_best_length)
+
         feasible = len(best_routes) > 0 and self.instance.is_solution_feasible(best_routes)
 
         return ACSResult(

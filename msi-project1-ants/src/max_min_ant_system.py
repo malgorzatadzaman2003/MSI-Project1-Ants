@@ -29,10 +29,27 @@ class MaxMinAntSystemSolver:
         self.distance_matrix = self._build_distance_matrix()
         self.heuristic_matrix = self._build_heuristic_matrix()
 
-        self.tau_max = 1.0
-        self.tau_min = 0.01
+        self.tau_max, self.tau_min = self._compute_initial_tau_bounds()
         self.pheromone_matrix = self._initialize_pheromones()
 
+    def _compute_initial_tau_bounds(self):
+        """
+        Początkowe ograniczenia feromonu wyznaczane na podstawie rozwiązania zachłannego.
+        """
+        from src.greedy import solve_greedy
+
+        greedy_result = solve_greedy(self.instance)
+
+        rho = self.config.evaporation
+        n = max(1, len(self.customers))
+
+        if greedy_result.feasible and greedy_result.total_length > 0 and rho > 0:
+            tau_max = 1.0 / (rho * greedy_result.total_length)
+            tau_min = tau_max / (2.0 * n)
+            return tau_max, tau_min
+
+        return 1.0, 1.0 / (2.0 * n)
+    
     def _build_distance_matrix(self) -> np.ndarray:
         n = len(self.nodes)
         distances = np.zeros((n, n), dtype=float)
@@ -152,6 +169,19 @@ class MaxMinAntSystemSolver:
     def _clip_pheromones(self) -> None:
         self.pheromone_matrix = np.clip(self.pheromone_matrix, self.tau_min, self.tau_max)
 
+    def _update_tau_bounds(self, best_length: float) -> None:
+        """
+        Aktualizacja tau_max i tau_min zgodnie z ideą MMAS.
+        """
+        if best_length <= 0 or self.config.evaporation <= 0:
+            return
+
+        rho = self.config.evaporation
+        n = max(1, len(self.customers))
+
+        self.tau_max = 1.0 / (rho * best_length)
+        self.tau_min = self.tau_max / (2.0 * n)
+        
     def solve(self) -> MMASResult:
         best_routes: List[List[int]] = []
         best_length = float("inf")
@@ -181,14 +211,13 @@ class MaxMinAntSystemSolver:
                     best_routes = routes
                     best_iteration = iteration + 1
 
-            if best_routes:
-                self.tau_max = self.config.q / best_length
-                self.tau_min = self.tau_max / 10.0
+                if best_routes:
+                    self._update_tau_bounds(best_length)
 
             self._evaporate_pheromones()
 
-            if best_routes:
-                self._deposit_best_solution(best_routes, best_length)
+            if iteration_best_routes:
+                self._deposit_best_solution(iteration_best_routes, iteration_best_length)
 
             self._clip_pheromones()
 

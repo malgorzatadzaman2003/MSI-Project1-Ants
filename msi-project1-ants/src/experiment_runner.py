@@ -7,6 +7,8 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 
 from src.ant_system import AntSystemSolver
+from src.ant_colony_system import AntColonySystemSolver
+from src.max_min_ant_system import MaxMinAntSystemSolver
 from src.config import AlgorithmConfig
 from src.cvrplib_parser import parse_cvrplib
 from src.greedy import solve_greedy
@@ -93,6 +95,95 @@ def run_as_once(
         best_iteration=result.best_iteration,
     )
 
+def run_acs_once(
+    instance_path: str,
+    num_vehicles: int,
+    s_max: float,
+    seed: int,
+    ants: int,
+    iterations: int,
+    alpha: float,
+    beta: float,
+    evaporation: float,
+    q: float,
+) -> SingleRunResult:
+    instance = parse_cvrplib(
+        filepath=instance_path,
+        num_vehicles=num_vehicles,
+        s_max=s_max,
+    )
+
+    config = AlgorithmConfig(
+        seed=seed,
+        ants=ants,
+        iterations=iterations,
+        alpha=alpha,
+        beta=beta,
+        evaporation=evaporation,
+        q=q,
+    )
+
+    solver = AntColonySystemSolver(instance, config)
+
+    start = perf_counter()
+    result = solver.solve()
+    end = perf_counter()
+
+    return SingleRunResult(
+        algorithm="acs",
+        instance=instance.name,
+        seed=seed,
+        feasible=result.feasible,
+        total_length=result.total_length,
+        execution_time_sec=end - start,
+        num_routes=len(result.routes),
+        best_iteration=result.best_iteration,
+    )
+
+def run_mmas_once(
+    instance_path: str,
+    num_vehicles: int,
+    s_max: float,
+    seed: int,
+    ants: int,
+    iterations: int,
+    alpha: float,
+    beta: float,
+    evaporation: float,
+    q: float,
+) -> SingleRunResult:
+    instance = parse_cvrplib(
+        filepath=instance_path,
+        num_vehicles=num_vehicles,
+        s_max=s_max,
+    )
+
+    config = AlgorithmConfig(
+        seed=seed,
+        ants=ants,
+        iterations=iterations,
+        alpha=alpha,
+        beta=beta,
+        evaporation=evaporation,
+        q=q,
+    )
+
+    solver = MaxMinAntSystemSolver(instance, config)
+
+    start = perf_counter()
+    result = solver.solve()
+    end = perf_counter()
+
+    return SingleRunResult(
+        algorithm="mmas",
+        instance=instance.name,
+        seed=seed,
+        feasible=result.feasible,
+        total_length=result.total_length,
+        execution_time_sec=end - start,
+        num_routes=len(result.routes),
+        best_iteration=result.best_iteration,
+    )
 
 def summarize_results(df: pd.DataFrame) -> pd.DataFrame:
     """
