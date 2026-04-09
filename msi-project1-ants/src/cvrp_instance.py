@@ -68,3 +68,7 @@ class CVRPInstance:
             visited.extend(route)
 
         return sorted(visited) == sorted(self.customers())
+
+    def solution_length(self, routes: List[List[int]]) -> float:
+        """Suma długości wszystkich tras."""
+        return sum(self.route_length(route) for route in routes)
