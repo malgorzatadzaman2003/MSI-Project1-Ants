@@ -40,3 +40,7 @@ class CVRPInstance:
         total += self.distance(prev, self.depot_id)
         return total
     
+    def route_load(self, route: List[int]) -> int:
+        """Suma zapotrzebowań klientów na trasie."""
+        return sum(self.demands[c] for c in route)
+    
