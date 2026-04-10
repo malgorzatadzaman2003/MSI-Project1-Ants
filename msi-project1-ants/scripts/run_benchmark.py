@@ -107,8 +107,10 @@ def main() -> None:
     summary_df = summarize_results(raw_df)
 
     save_benchmark_outputs(
-        raw_df=raw_df,
-        summary_df=summary_df,
+    raw_df=raw_df,
+    summary_df=summary_df,
+    ants=ants,
+    iterations=iterations,
     )
 
     print("\nPodsumowanie:")

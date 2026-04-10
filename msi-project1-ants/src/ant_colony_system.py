@@ -41,7 +41,7 @@ class AntColonySystemSolver:
         self.q0 = 0.7
 
         # Parametr lokalnej aktualizacji
-        self.local_evaporation = 0.05
+        self.local_evaporation = 0.1
 
     def _compute_initial_pheromone_level(self) -> float:
         """
@@ -223,7 +223,7 @@ class AntColonySystemSolver:
         if total_length <= 0:
             return
 
-        delta = self.config.q / total_length
+        delta = self.config.evaporation * (self.config.q / total_length)
 
         for route in routes:
             full_route = [self.instance.depot_id] + route + [self.instance.depot_id]

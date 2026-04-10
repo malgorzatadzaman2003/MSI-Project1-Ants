@@ -26,6 +26,10 @@ class SingleRunResult:
     num_routes: int
     best_iteration: Optional[int] = None
 
+    # parametry algorytmu
+    ants: int = 0
+    iterations: int = 0
+
 
 def run_greedy_once(instance_path: str, num_vehicles: int, s_max: float) -> SingleRunResult:
     instance = parse_cvrplib(
@@ -47,6 +51,8 @@ def run_greedy_once(instance_path: str, num_vehicles: int, s_max: float) -> Sing
         execution_time_sec=end - start,
         num_routes=len(result.routes),
         best_iteration=None,
+        ants=0,
+        iterations=0,
     )
 
 
@@ -93,6 +99,8 @@ def run_as_once(
         execution_time_sec=end - start,
         num_routes=len(result.routes),
         best_iteration=result.best_iteration,
+        ants=ants,
+        iterations=iterations,
     )
 
 def run_acs_once(
@@ -138,6 +146,8 @@ def run_acs_once(
         execution_time_sec=end - start,
         num_routes=len(result.routes),
         best_iteration=result.best_iteration,
+        ants=ants,
+        iterations=iterations,
     )
 
 def run_mmas_once(
@@ -183,6 +193,8 @@ def run_mmas_once(
         execution_time_sec=end - start,
         num_routes=len(result.routes),
         best_iteration=result.best_iteration,
+        ants=ants,
+        iterations=iterations,
     )
 
 def summarize_results(df: pd.DataFrame) -> pd.DataFrame:
@@ -222,10 +234,13 @@ def summarize_results(df: pd.DataFrame) -> pd.DataFrame:
 def save_benchmark_outputs(
     raw_df: pd.DataFrame,
     summary_df: pd.DataFrame,
-    raw_filename: str = "benchmark_raw.csv",
-    summary_filename: str = "benchmark_summary.csv",
+    ants: int,
+    iterations: int,
 ) -> None:
     ensure_results_dirs()
+
+    raw_filename = f"benchmark_raw_ants{ants}_iter{iterations}.csv"
+    summary_filename = f"benchmark_summary_ants{ants}_iter{iterations}.csv"
 
     raw_path = Path("results/tables") / raw_filename
     summary_path = Path("results/tables") / summary_filename

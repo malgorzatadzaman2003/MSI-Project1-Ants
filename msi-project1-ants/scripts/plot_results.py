@@ -12,8 +12,8 @@ def prepare_instance_order(df: pd.DataFrame, instance_order: list[str]) -> pd.Da
 def main() -> None:
     Path("results/plots").mkdir(parents=True, exist_ok=True)
 
-    summary_df = pd.read_csv("results/tables/benchmark_summary.csv")
-    raw_df = pd.read_csv("results/tables/benchmark_raw.csv")
+    summary_df = pd.read_csv("results/tables/benchmark_summary_ants80_iter100.csv")
+    raw_df = pd.read_csv("results/tables/benchmark_raw_ants80_iter100.csv")
 
     instance_order = ["A-n32-k5", "A-n48-k7", "A-n60-k9", "A-n80-k10"]
     algorithm_order = ["greedy", "as", "acs", "mmas"]
@@ -43,7 +43,7 @@ def main() -> None:
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/plots/length_comparison.png", dpi=200)
+    plt.savefig("results/plots/length_comparison_ants80_iter100.png", dpi=200)
     plt.close()
 
     # -----------------------------
@@ -68,7 +68,7 @@ def main() -> None:
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/plots/time_comparison.png", dpi=200)
+    plt.savefig("results/plots/time_comparison_ants80_iter100.png", dpi=200)
     plt.close()
 
     # -----------------------------
@@ -98,7 +98,7 @@ def main() -> None:
         plt.ylabel("Całkowita długość tras")
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("results/plots/aco_stability_boxplot.png", dpi=200)
+        plt.savefig("results/plots/aco_stability_boxplot_ants80_iter100.png", dpi=200)
         plt.close()
 
     # -----------------------------
@@ -125,7 +125,7 @@ def main() -> None:
             plt.ylabel("Całkowita długość tras")
             plt.grid(True)
             plt.tight_layout()
-            plt.savefig(f"results/plots/{algo}_stability_boxplot.png", dpi=200)
+            plt.savefig(f"results/plots/{algo}_stability_boxplot_ants80_iter100.png", dpi=200)
             plt.close()
 
     # -----------------------------
@@ -150,7 +150,7 @@ def main() -> None:
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/plots/std_comparison.png", dpi=200)
+    plt.savefig("results/plots/std_comparison_ants80_iter100.png", dpi=200)
     plt.close()
 
     print("Wykresy zapisane w results/plots/")

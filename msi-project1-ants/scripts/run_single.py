@@ -47,12 +47,12 @@ def print_solution_summary(instance, result, execution_time: float, algorithm_na
 def main() -> None:
     ensure_results_dirs()
 
-    data_path = Path("data/raw/A-n60-k9.vrp")
-    algorithm = "mmas"   # "greedy" albo "as" na razie // "acs" dodane
+    data_path = Path("data/raw/A-n80-k10.vrp")
+    algorithm = "acs"   # "greedy" albo "as" na razie // "acs" dodane
 
     instance = parse_cvrplib(
         filepath=str(data_path),
-        num_vehicles=9,
+        num_vehicles=10,
         s_max=800.0,
     )
 
