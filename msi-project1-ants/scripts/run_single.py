@@ -48,12 +48,12 @@ def main() -> None:
     ensure_results_dirs()
 
     data_path = Path("data/raw/A-n80-k10.vrp")
-    algorithm = "acs"   # "greedy" albo "as" na razie // "acs" dodane
+    algorithm = "mmas"   # "greedy" albo "as" na razie // "acs" dodane
 
     instance = parse_cvrplib(
         filepath=str(data_path),
         num_vehicles=10,
-        s_max=800.0,
+        s_max=900.0,
     )
 
     start = perf_counter()
