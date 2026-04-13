@@ -1,0 +1,25 @@
+Instancja: A-n32-k5
+Liczba pojazdów: 5
+Capacity: 100
+S_max: 500.0
+Total length: 836.29
+
+Pojazd 1: depot -> 28 -> 25 -> 15 -> 27 -> 31 -> 17 -> 2 -> depot
+  Ładunek: 100
+  Długość: 118.56
+
+Pojazd 2: depot -> 21 -> 6 -> 26 -> 11 -> 16 -> 23 -> 10 -> 9 -> 19 -> 30 -> depot
+  Ładunek: 98
+  Długość: 268.96
+
+Pojazd 3: depot -> 8 -> 14 -> 22 -> 32 -> 20 -> 18 -> depot
+  Ładunek: 96
+  Długość: 160.03
+
+Pojazd 4: depot -> 7 -> 3 -> 4 -> 24 -> 29 -> 5 -> 12 -> depot
+  Ładunek: 95
+  Długość: 231.06
+
+Pojazd 5: depot -> 13 -> depot
+  Ładunek: 21
+  Długość: 57.69

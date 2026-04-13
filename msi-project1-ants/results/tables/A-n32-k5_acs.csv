@@ -1,0 +1,6 @@
+instance,vehicle_id,route,num_customers,route_load,route_length,capacity_limit,s_max,feasible,total_solution_length,execution_time_sec
+A-n32-k5,1,depot -> 21 -> 6 -> 30 -> 26 -> 11 -> 16 -> 23 -> 10 -> 9 -> 19 -> 27 -> depot,11,100,283.58,100,500.0,True,857.86,5.883931208
+A-n32-k5,2,depot -> 7 -> 24 -> 3 -> 4 -> 12 -> 5 -> 29 -> 15 -> depot,8,98,240.94,100,500.0,True,857.86,5.883931208
+A-n32-k5,3,depot -> 8 -> 14 -> 22 -> 18 -> 20 -> 32 -> depot,6,96,163.15,100,500.0,True,857.86,5.883931208
+A-n32-k5,4,depot -> 13 -> 17 -> 2 -> 31 -> 25 -> depot,5,96,118.26,100,500.0,True,857.86,5.883931208
+A-n32-k5,5,depot -> 28 -> depot,1,20,51.92,100,500.0,True,857.86,5.883931208

@@ -1,0 +1,41 @@
+Instancja: A-n60-k9
+Liczba pojazdów: 9
+Capacity: 100
+S_max: 700.0
+Total length: 1562.86
+
+Pojazd 1: depot -> 19 -> 42 -> 17 -> 21 -> 26 -> 47 -> 41 -> 12 -> 22 -> 5 -> depot
+  Ładunek: 100
+  Długość: 123.75
+
+Pojazd 2: depot -> 34 -> 53 -> 39 -> 60 -> 8 -> 30 -> depot
+  Ładunek: 99
+  Długość: 119.62
+
+Pojazd 3: depot -> 4 -> 7 -> 32 -> 29 -> 45 -> 54 -> 31 -> depot
+  Ładunek: 100
+  Długość: 204.40
+
+Pojazd 4: depot -> 33 -> 10 -> 52 -> 13 -> 44 -> 57 -> 38 -> 28 -> 20 -> depot
+  Ładunek: 100
+  Długość: 269.45
+
+Pojazd 5: depot -> 15 -> 48 -> 24 -> 35 -> 59 -> 25 -> 3 -> 50 -> depot
+  Ładunek: 99
+  Długość: 176.98
+
+Pojazd 6: depot -> 56 -> 36 -> 46 -> 6 -> 55 -> 11 -> 37 -> depot
+  Ładunek: 97
+  Długość: 207.17
+
+Pojazd 7: depot -> 51 -> 40 -> 27 -> 18 -> 58 -> 16 -> depot
+  Ładunek: 93
+  Długość: 160.73
+
+Pojazd 8: depot -> 2 -> 49 -> 23 -> 43 -> depot
+  Ładunek: 98
+  Długość: 189.25
+
+Pojazd 9: depot -> 14 -> 9 -> depot
+  Ładunek: 43
+  Długość: 111.51
