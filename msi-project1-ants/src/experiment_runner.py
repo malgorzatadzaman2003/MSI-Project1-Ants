@@ -236,11 +236,12 @@ def save_benchmark_outputs(
     summary_df: pd.DataFrame,
     ants: int,
     iterations: int,
+    evaporation: float,
 ) -> None:
     ensure_results_dirs()
 
-    raw_filename = f"benchmark_raw_ants{ants}_iter{iterations}.csv"
-    summary_filename = f"benchmark_summary_ants{ants}_iter{iterations}.csv"
+    raw_filename = f"benchmark_raw_ants{ants}_iter{iterations}_evap{evaporation}.csv"
+    summary_filename = f"benchmark_summary_ants{ants}_iter{iterations}_evap{evaporation}.csv"
 
     raw_path = Path("results/tables") / raw_filename
     summary_path = Path("results/tables") / summary_filename

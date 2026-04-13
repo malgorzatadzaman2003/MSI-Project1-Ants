@@ -12,8 +12,8 @@ def prepare_instance_order(df: pd.DataFrame, instance_order: list[str]) -> pd.Da
 def main() -> None:
     Path("results/plots").mkdir(parents=True, exist_ok=True)
 
-    summary_df = pd.read_csv("results/tables/benchmark_summary_ants40_iter100.csv")
-    raw_df = pd.read_csv("results/tables/benchmark_raw_ants40_iter100.csv")
+    summary_df = pd.read_csv("results/tables/benchmark_summary_ants10_iter1000_evap0.5.csv")
+    raw_df = pd.read_csv("results/tables/benchmark_raw_ants10_iter1000_evap0.5.csv")
 
     instance_order = ["A-n32-k5", "A-n48-k7", "A-n60-k9", "A-n80-k10"]
     algorithm_order = ["greedy", "as", "acs", "mmas"]
@@ -37,13 +37,13 @@ def main() -> None:
             label=algo.upper(),
         )
 
-    plt.title("Porównanie średniej długości tras (Ants=40, Iter=100)")
+    plt.title("Porównanie średniej długości tras (Ants=10, Iter=1000)")
     plt.xlabel("Instancja")
     plt.ylabel("Średnia długość tras")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/plots/length_comparison_ants40_iter100.png", dpi=200)
+    plt.savefig("results/plots/length_comparison_ants10_iter1000_evap0.5.png", dpi=200)
     plt.close()
 
     # -----------------------------
@@ -62,13 +62,13 @@ def main() -> None:
             label=algo.upper(),
         )
 
-    plt.title("Porównanie średniego czasu wykonania (Ants=40, Iter=100)")
+    plt.title("Porównanie średniego czasu wykonania (Ants=10, Iter=1000)")
     plt.xlabel("Instancja")
     plt.ylabel("Czas [s]")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/plots/time_comparison_ants40_iter100.png", dpi=200)
+    plt.savefig("results/plots/time_comparison_ants10_iter1000_evap0.5.png", dpi=200)
     plt.close()
 
     # -----------------------------
@@ -93,12 +93,12 @@ def main() -> None:
     if boxplot_data:
         plt.figure(figsize=(14, 6))
         plt.boxplot(boxplot_data, labels=plot_labels)
-        plt.title("Stabilność wyników algorytmów mrówkowych (Ants=40, Iter=100)")
+        plt.title("Stabilność wyników algorytmów mrówkowych (Ants=10, Iter=1000)")
         plt.xlabel("Instancja i algorytm")
         plt.ylabel("Całkowita długość tras")
         plt.grid(True)
         plt.tight_layout()
-        plt.savefig("results/plots/aco_stability_boxplot_ants40_iter100.png", dpi=200)
+        plt.savefig("results/plots/aco_stability_boxplot_ants10_iter1000_evap0.5.png", dpi=200)
         plt.close()
 
     # -----------------------------
@@ -120,12 +120,12 @@ def main() -> None:
         if boxplot_data:
             plt.figure(figsize=(9, 5))
             plt.boxplot(boxplot_data, labels=labels)
-            plt.title(f"Stabilność wyników {algo.upper()} (Ants=40, Iter=100)")
+            plt.title(f"Stabilność wyników {algo.upper()} (Ants=10, Iter=1000)")
             plt.xlabel("Instancja")
             plt.ylabel("Całkowita długość tras")
             plt.grid(True)
             plt.tight_layout()
-            plt.savefig(f"results/plots/{algo}_stability_boxplot_ants40_iter100.png", dpi=200)
+            plt.savefig(f"results/plots/{algo}_stability_boxplot_ants10_iter1000_evap0.5.png", dpi=200)
             plt.close()
 
     # -----------------------------
@@ -144,13 +144,13 @@ def main() -> None:
             label=algo.upper(),
         )
 
-    plt.title("Odchylenie standardowe długości tras (Ants=40, Iter=100)")
+    plt.title("Odchylenie standardowe długości tras (Ants=10, Iter=1000)")
     plt.xlabel("Instancja")
     plt.ylabel("Odchylenie standardowe")
     plt.grid(True)
     plt.legend()
     plt.tight_layout()
-    plt.savefig("results/plots/std_comparison_ants40_iter100.png", dpi=200)
+    plt.savefig("results/plots/std_comparison_ants10_iter1000_evap0.5.png", dpi=200)
     plt.close()
 
     print("Wykresy zapisane w results/plots/")

@@ -22,8 +22,8 @@ def main() -> None:
     ]
 
     # Parametry Ant System
-    ants = 80
-    iterations = 100
+    ants = 10
+    iterations = 1000
     alpha = 1.0
     beta = 3.0
     evaporation = 0.5
@@ -111,6 +111,7 @@ def main() -> None:
     summary_df=summary_df,
     ants=ants,
     iterations=iterations,
+    evaporation=evaporation,
     )
 
     print("\nPodsumowanie:")
